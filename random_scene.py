@@ -173,16 +173,25 @@ for i in range(n_objects):
     object_info['material'] = material_info
 
 
+image_filename = 'scene_%s.png' % digest
+
+resolution_x = 256
+resolution_y = 256
+image_info = {
+    'filename': image_filename,
+    'resolution_x': resolution_x,
+    'resolution_y': resolution_y,
+}
+metadata['rendered_image'] = image_info
 metadata_filename = 'scene_%s.json' % digest
 print('saving scene to %s' % metadata_filename)
 with open(metadata_filename, 'w') as f:
     json.dump(metadata, f, indent=2)
 
-image_filename = 'scene_%s.png' % digest
 print('rendering scene to %s' % image_filename)
 
 bpy.context.scene.camera = camera
 bpy.context.scene.render.filepath = op.abspath(image_filename)
-bpy.context.scene.render.resolution_x = 256
-bpy.context.scene.render.resolution_y = 256
+bpy.context.scene.render.resolution_x = resolution_x
+bpy.context.scene.render.resolution_y = resolution_y
 bpy.ops.render.render(write_still=True)
